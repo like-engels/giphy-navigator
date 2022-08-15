@@ -20,7 +20,7 @@ class _HomepageSceneState extends State<HomepageScene> {
     final response = await http.get(Uri.parse(
         "https://api.giphy.com/v1/gifs/trending?api_key=JIT8J0mWYkZhd9tQHmZswEESEsMlB1H1&limit=50&rating=g"));
 
-    List<Gif> _gifs = [];
+    List<Gif> gifs = [];
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
@@ -28,10 +28,10 @@ class _HomepageSceneState extends State<HomepageScene> {
       final jsonData = jsonDecode(body);
 
       for (var item in jsonData["data"]) {
-        _gifs.add(Gif(item["title"], item["images"]["downsized"]["url"]));
+        gifs.add(Gif(item["title"], item["images"]["downsized"]["url"]));
       }
 
-      return _gifs;
+      return gifs;
     } else {
       throw Exception("Nel");
     }
@@ -67,10 +67,10 @@ class _HomepageSceneState extends State<HomepageScene> {
   }
 
   List<Widget> _gifListWidget(data) {
-    List<Widget> _gifs = [];
+    List<Widget> gifs = [];
 
     for (var gif in data) {
-      _gifs.add(Card(
+      gifs.add(Card(
           child: Column(children: [
         Expanded(
           child: Image.network(gif.url, fit: BoxFit.fill),
@@ -79,6 +79,6 @@ class _HomepageSceneState extends State<HomepageScene> {
       ])));
     }
 
-    return _gifs;
+    return gifs;
   }
 }
